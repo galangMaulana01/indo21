@@ -1,13 +1,5 @@
 {
   "appId": "com.indoscore.app",
   "appName": "Indoscore",
-  "webDir": "www",
-  "android": {
-    "allowMixedContent": true,
-    "webContentsDebuggingEnabled": false
-  },
-  "server": {
-    "androidScheme": "https",
-    "cleartext": true
-  }
+  "webDir": "www"
 }
