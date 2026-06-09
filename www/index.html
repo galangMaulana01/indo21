@@ -121,18 +121,7 @@
       <img src="logo.png" class="w-48 pl-3">
     </div>
   </header>
-  <div class="max-w-2xl mx-auto px-4 my-2">
-    <div class="relative overflow-hidden rounded-2xl bg-latar h-32 flex items-center px-5">
-       <img src="haaland.png" class="absolute left-0 bottom-0 h-36 object-contain">
-        <div class="ml-28 flex-1">
-          <img src="logo-1000px.png" class="w-24">
-            <p class="text-gray-400 text-sm mt-2 max-w-[180px] leading-tight">
-                Join sekarang untuk menikmati hasil yang melimpah
-            </p>
-        </div>
-        <a href="scorpio.com" class="bg-kartu transition text-white font-bold text-2xl px-8 py-4 rounded-2xl"> join </a>
-    </div>
-</div>
+  <div id="benner" class="max-w-2xl mx-auto px-4 my-2"></div>
   <main class="max-w-2xl mx-auto px-4">
     <div id="matches-skeleton" class="space-y-5"></div>
     <div id="matches-container" class="space-y-5 hidden"></div>
@@ -499,6 +488,32 @@ async function fetchAndRenderMatches() {
   }
 }
 
+async function loadBanner() {
+  const response = await fetch(`${API_BASE_URL}/benner`);
+  const data = await response.json();
+  
+  document.getElementById("benner").innerHTML = `
+        <div class="relative overflow-hidden rounded-2xl bg-latar h-32 flex items-center px-5">
+            <img src="${data.image_benner}" class="absolute left-0 bottom-0 h-36 object-contain">
+
+            <div class="ml-28 flex-1">
+                <img src="${data.image_logo}" class="w-24">
+
+                <p class="text-gray-400 text-sm mt-2 max-w-[180px] leading-tight">
+                    ${data.desc}
+                </p>
+            </div>
+
+            <a href="${data.link}"
+               target="_blank"
+               class="bg-kartu transition text-white font-bold text-2xl px-8 py-4 rounded-2xl">
+                Join
+            </a>
+        </div>
+    `;
+}
+
+loadBanner();
 // ==================== STANDINGS ====================
 async function fetchAndRenderStandings() {
   const skeletonDiv = document.getElementById('standings-skeleton');
