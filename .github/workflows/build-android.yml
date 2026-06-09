@@ -19,11 +19,6 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Build Web App (Salin File ke www)
-        run: |
-          mkdir -p www
-          cp -r ./* www/ 2>/dev/null || :
-
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
