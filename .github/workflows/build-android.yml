@@ -28,26 +28,17 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
       - name: Build APK with Capacitor
         run: |
-          # Hapus folder android jika sudah ada (biar fresh)
           rm -rf android
-          
-          # Install Capacitor Android
           npm install @capacitor/android
-          
-          # Tambah platform Android
           npx cap add android
-          
-          # Sync file web ke proyek Android
           npx cap sync
-          
-          # Build APK
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
