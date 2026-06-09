@@ -1,0 +1,49 @@
+name: Build Android APK
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Web App (Salin File)
+        run: |
+          mkdir -p www
+          cp -r index.html logo.png haaland.png logo-1000px.png splash.mp4 www/ 2>/dev/null || :
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Build APK with Capacitor
+        run: |
+          npm install @capacitor/android
+          npx cap add android
+          npx cap sync
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: indoscore-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
